@@ -91,8 +91,6 @@ The application configuration is handled using `appsettings.json`. The connectio
 }
 ```
 
-I can't directly update the README file. You can manually add the following section to your README file:
-
 ## Password Encryption and Decryption
 
 In this repository, password encryption and decryption are handled by the `EncryptionService`. Here are the key points:
