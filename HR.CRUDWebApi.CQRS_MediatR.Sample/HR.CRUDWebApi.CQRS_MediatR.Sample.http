@@ -1,0 +1,6 @@
+@HR.CRUDWebApi.CQRS_MediatR.Sample_HostAddress = http://localhost:5104
+
+GET {{HR.CRUDWebApi.CQRS_MediatR.Sample_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
