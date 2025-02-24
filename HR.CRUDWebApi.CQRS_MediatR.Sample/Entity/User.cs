@@ -1,11 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity.BaseEntity;
+using System.ComponentModel.DataAnnotations;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Entity
 {
-    public class User
+    public class User : BEntity
     {
-        [Key]
-        public Guid UserID { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }

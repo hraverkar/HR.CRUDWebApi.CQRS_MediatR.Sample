@@ -21,12 +21,15 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
         {
             return await _context.Users.Select(u => new UserDto
             {
-                UserID = u.UserID,
+                Id   = u.Id,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
                 Email = u.Email,
                 Department = u.Department,
-                Password = _encryptionService.Decrypt(u.Password)
+                Password = _encryptionService.Decrypt(u.Password),
+                CreatedAt = u.CreatedAt,
+                UpdatedAt = u.UpdatedAt,
+                IsDeleted = u.IsDeleted
             }).ToListAsync();
         }
     }

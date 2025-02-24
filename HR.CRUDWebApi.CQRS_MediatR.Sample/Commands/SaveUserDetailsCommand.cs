@@ -24,7 +24,6 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                 {
                     var user = new User
                     {
-                        UserID = Guid.NewGuid(),
                         FirstName = request.FirstName,
                         LastName = request.LastName,
                         Email = request.Email,
@@ -33,9 +32,9 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                     };
                     _context.Users.Add(user);
                     await _context.SaveChangesAsync();
-                    response = new ResponseDto(user.UserID, "User details saved successfully");
+                    response = new ResponseDto(user.Id, "User details saved successfully");
                     await _mediator.Publish(new ResponseEvent(response));
-                    return new ResponseDto(user.UserID, "User details saved successfully");
+                    return new ResponseDto(user.Id, "User details saved successfully");
                 }
                 await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, "Invalid request")));
                 return new ResponseDto(Guid.Empty, "Invalid request");
