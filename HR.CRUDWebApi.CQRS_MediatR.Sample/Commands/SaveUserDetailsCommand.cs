@@ -1,6 +1,7 @@
 ﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Events.Notifications;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
 using MediatR;
@@ -34,6 +35,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                     await _context.SaveChangesAsync();
                     response = new ResponseDto(user.Id, "User details saved successfully");
                     await _mediator.Publish(new ResponseEvent(response));
+                    await _mediator.Publish(new SaveUserDetailsNotification(response.Id, user.FirstName, user.Email));
                     return new ResponseDto(user.Id, "User details saved successfully");
                 }
                 await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, "Invalid request")));

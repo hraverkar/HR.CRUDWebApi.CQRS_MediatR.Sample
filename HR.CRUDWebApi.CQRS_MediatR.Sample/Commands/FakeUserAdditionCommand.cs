@@ -32,7 +32,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
             // Convert users to ResponseDto
             var responseDtos = users.Select(u => new ResponseDto
             {
-                UserID = u.Id,
+                Id = u.Id,
                 ActionMessage = "User details saved successfully"
             }).ToList();
 

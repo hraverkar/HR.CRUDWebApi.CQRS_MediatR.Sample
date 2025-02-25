@@ -6,12 +6,12 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Events
     {
         public async Task Handle(ResponseEvent notification, CancellationToken cancellationToken)
         {
-            Console.WriteLine($"User ID: {notification.Response.UserID} , Message: {notification.Response.ActionMessage}");
+            Console.WriteLine($"User ID: {notification.Response.Id} , Message: {notification.Response.ActionMessage}");
         }
 
         public async Task Handle(ErrorEvent notification, CancellationToken cancellationToken)
         {
-            Console.WriteLine($"Error ID: {notification.Response.UserID} , Message: {notification.Response.ActionMessage}");
+            Console.WriteLine($"Error ID: {notification.Response.Id} , Message: {notification.Response.ActionMessage}");
         }
     }
 }
