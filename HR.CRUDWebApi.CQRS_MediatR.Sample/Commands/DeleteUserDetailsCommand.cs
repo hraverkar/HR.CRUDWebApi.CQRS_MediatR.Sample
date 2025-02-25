@@ -23,7 +23,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                     {
                         _context.Users.Remove(user);
                         await _context.SaveChangesAsync();
-                        responseDto = new ResponseDto(user.UserID, "User details deleted successfully");
+                        responseDto = new ResponseDto(user.Id, "User details deleted successfully");
                         await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                         return responseDto;
                     }

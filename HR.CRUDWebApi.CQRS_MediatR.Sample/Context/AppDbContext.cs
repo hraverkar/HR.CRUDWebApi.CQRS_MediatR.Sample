@@ -3,12 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-        {
-        }
-
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -16,9 +12,9 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Context
             base.OnModelCreating(modelBuilder);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer("Server=host.docker.internal;Database=DemoApp;User Id=sa;Password=Admin1234!;TrustServerCertificate=True;");
-        }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer("Server=host.docker.internal;Database=DemoApp;User Id=sa;Password=Admin1234!;TrustServerCertificate=True;");
+        //}
     }
 }
