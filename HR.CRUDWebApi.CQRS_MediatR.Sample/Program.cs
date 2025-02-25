@@ -1,7 +1,10 @@
 using FluentValidation.AspNetCore;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Handlers;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Services;
+using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -20,6 +23,10 @@ var configuration = new ConfigurationBuilder()
 var sqlConnection = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(sqlConnection));
 
+builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
+builder.Services.AddSingleton<SmtpClient>();
+builder.Services.AddTransient<SendWelComeEmailHandler>();
+builder.Services.AddSingleton<IConfiguration>(configuration);
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddScoped<IEncryptionService, EncryptionService>();

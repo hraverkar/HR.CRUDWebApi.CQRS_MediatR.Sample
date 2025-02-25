@@ -4,12 +4,12 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Models
 {
     public class ResponseDto
     {
-        public Guid UserID { get; set; }
+        public Guid Id { get; set; }
         public string ActionMessage { get; set; }
         public ResponseDto() { }
-        public ResponseDto(Guid userId, string actionMessage)
+        public ResponseDto(Guid id, string actionMessage)
         {
-            UserID = userId;
+            Id = id;
             ActionMessage = actionMessage;
         }
     }
