@@ -30,20 +30,20 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                         user.Department = request.Department;
                         _appDbContext.Users.Update(user);
                         _appDbContext.SaveChanges();
-                        responseDto = new ResponseDto(user.UserID, "User details updated successfully");
+                        responseDto = new ResponseDto(user.Id, "User details updated successfully");
                         await _mediator.Publish(new ResponseEvent(responseDto));
                         return responseDto;
                     }
                     else
                     {
-                        responseDto = new ResponseDto(Guid.Empty, "User not found");
+                        responseDto = new ResponseDto(default, "User not found");
                         await _mediator.Publish(new ResponseEvent(responseDto));
                         return responseDto;
                     }
                 }
                 else
                 {
-                    responseDto = new ResponseDto(Guid.Empty, "Invalid request");
+                    responseDto = new ResponseDto(default, "Invalid request");
                     await _mediator.Publish(new ResponseEvent(responseDto));
                     return responseDto;
                 }

@@ -17,12 +17,15 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
 #pragma warning disable CS8602 // Dereference of a possibly null reference.
             return new UserDto
             {
-                UserID = user.UserID,
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Email = user.Email,
                 Department = user.Department,
-                Password = _encryptionService.Decrypt(user.Password)
+                Password = _encryptionService.Decrypt(user.Password),
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                IsDeleted = user.IsDeleted
             };
 #pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
