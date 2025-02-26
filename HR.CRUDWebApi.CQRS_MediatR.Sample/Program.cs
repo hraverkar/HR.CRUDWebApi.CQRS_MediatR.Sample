@@ -3,10 +3,13 @@ using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Handlers;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Services;
 using MailKit.Net.Smtp;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +25,17 @@ var configuration = new ConfigurationBuilder()
 
 var sqlConnection = configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(sqlConnection));
+
+// Register Unit of Work
+builder.Services.AddScoped<IUnitOfWorks, UnitOfWorks>();
+
+// Register Generic Repository (if applicable)
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
+// Register Specific Repositories (if you have them)
+//builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+//builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
 
 builder.Services.Configure<MailSettingsDto>(builder.Configuration.GetSection("MailSettings"));
 builder.Services.AddSingleton<SmtpClient>();

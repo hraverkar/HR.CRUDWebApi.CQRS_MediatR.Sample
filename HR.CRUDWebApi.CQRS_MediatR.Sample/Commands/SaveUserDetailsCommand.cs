@@ -4,15 +4,18 @@ using HR.CRUDWebApi.CQRS_MediatR.Sample.Events;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events.Notifications;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
 {
     public record SaveUserDetailsCommand(string FirstName, string LastName, string Email, string Department, string Password) : IRequest<ResponseDto>;
 
-    public class SaveUserDetailsCommandHandler(AppDbContext context, IMediator mediator, IEncryptionService encryptionService) : IRequestHandler<SaveUserDetailsCommand, ResponseDto>
+    public class SaveUserDetailsCommandHandler(IRepository<User> repository, IMediator mediator, IEncryptionService encryptionService, IUnitOfWorks unitOfWorks) : IRequestHandler<SaveUserDetailsCommand, ResponseDto>
     {
-        private readonly AppDbContext _context = context;
+        private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
+        private readonly IRepository<User> _repository = repository;
         private readonly IMediator _mediator = mediator;
         private readonly IEncryptionService _encryptionService = encryptionService;
 
@@ -31,8 +34,8 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                         Department = request.Department,
                         Password = _encryptionService.Encrypt(request.Password)
                     };
-                    _context.Users.Add(user);
-                    await _context.SaveChangesAsync();
+                    _repository.Insert(user);
+                    await _unitOfWorks.SaveChangesAsync(cancellationToken);
                     response = new ResponseDto(user.Id, "User details saved successfully");
                     await _mediator.Publish(new ResponseEvent(response));
                     await _mediator.Publish(new SaveUserDetailsNotification(response.Id, user.FirstName, user.Email));
