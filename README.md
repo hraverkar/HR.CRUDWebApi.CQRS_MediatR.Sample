@@ -1,3 +1,4 @@
+[![.NET](https://github.com/hraverkar/HR.CRUDWebApi.CQRS_MediatR.Sample/actions/workflows/dotnet.yml/badge.svg)](https://github.com/hraverkar/HR.CRUDWebApi.CQRS_MediatR.Sample/actions/workflows/dotnet.yml)
 ### Implementing a CRUD Web API using CQRS and MediatR
 Code 
 =======
