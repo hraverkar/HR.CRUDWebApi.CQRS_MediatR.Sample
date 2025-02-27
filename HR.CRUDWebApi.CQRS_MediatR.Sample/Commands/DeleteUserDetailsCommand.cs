@@ -1,15 +1,19 @@
 ﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
 {
     public record DeleteUserDetailsCommand(Guid UserID) : IRequest<ResponseDto>;
-    public class DeleteUserDetailsCommandHandler(AppDbContext context, IMediator mediator) : IRequestHandler<DeleteUserDetailsCommand, ResponseDto>
+    public class DeleteUserDetailsCommandHandler(IMediator mediator, IRepository<User> repository, IUnitOfWorks unitOfWorks) : IRequestHandler<DeleteUserDetailsCommand, ResponseDto>
     {
-        private readonly AppDbContext _context = context;
+        private readonly IRepository<User> _repository = repository;
         private readonly IMediator _mediator = mediator;
+        private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
 
         public async Task<ResponseDto> Handle(DeleteUserDetailsCommand request, CancellationToken cancellationToken)
         {
@@ -18,11 +22,11 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
             {
                 if (request is not null)
                 {
-                    var user = await _context.Users.FindAsync(request.UserID);
+                    var user = await _repository.GetByIdAsync(request.UserID);
                     if (user is not null)
                     {
-                        _context.Users.Remove(user);
-                        await _context.SaveChangesAsync();
+                        _repository.Delete(user);
+                        await _unitOfWorks.SaveChangesAsync(cancellationToken);
                         responseDto = new ResponseDto(user.Id, "User details deleted successfully");
                         await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                         return responseDto;

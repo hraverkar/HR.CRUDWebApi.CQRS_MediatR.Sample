@@ -16,8 +16,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories
         }
         public void Delete(T entity)
         {
-            _context.Entry(entity).State = EntityState.Modified;
-            _dbSet.Update(entity);
+            _dbSet.Remove(entity);
         }
 
         public IQueryable<T> GetAll(bool noTracking = true)
@@ -30,9 +29,10 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories
             return set;
         }
 
-        public async Task<T?> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            return await _dbSet.FindAsync(id);
+            var entity = await _dbSet.FindAsync(id);
+            return entity ?? throw new InvalidOperationException($"Entity with id {id} not found.");
         }
 
         public void Insert(T entity)

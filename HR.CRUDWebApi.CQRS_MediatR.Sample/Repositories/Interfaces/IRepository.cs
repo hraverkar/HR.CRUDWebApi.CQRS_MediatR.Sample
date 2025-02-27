@@ -3,7 +3,7 @@
     public interface IRepository<T> where T : class
     {
         IQueryable<T> GetAll(bool noTracking = true);
-        Task<T?> GetByIdAsync(Guid id);
+        Task<T> GetByIdAsync(Guid id);
         void Insert(T entity);
         void InsertAll(List<T> entities);
         void Delete(T entity);

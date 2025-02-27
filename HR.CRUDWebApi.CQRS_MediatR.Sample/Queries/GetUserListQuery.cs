@@ -1,36 +1,38 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
+﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
 {
     public record GetUserListQuery() : IRequest<List<UserDto>>;
-    
-    public class GetUserListQueryHandler : IRequestHandler<GetUserListQuery, List<UserDto>>
+
+    public class GetUserListQueryHandler(IEncryptionService encryptionService, IRepository<User> repository) : IRequestHandler<GetUserListQuery, List<UserDto>>
     {
-        private readonly AppDbContext _context;
-        private readonly IEncryptionService _encryptionService;
-        public GetUserListQueryHandler(AppDbContext context, IEncryptionService encryptionService)
+        private readonly IEncryptionService _encryptionService = encryptionService;
+        private readonly IRepository<User> _repository = repository;
+
+        async Task<List<UserDto>> IRequestHandler<GetUserListQuery, List<UserDto>>.Handle(GetUserListQuery request, CancellationToken cancellationToken)
         {
-            _context = context;
-            _encryptionService = encryptionService;
-        }
-        public async Task<List<UserDto>> Handle(GetUserListQuery request, CancellationToken cancellationToken)
-        {
-            return await _context.Users.Select(u => new UserDto
+            var allUser = _repository.GetAll();
+            var userList = allUser.ToList();
+            userList.ForEach(user =>
             {
-                Id   = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email,
-                Department = u.Department,
-                Password = _encryptionService.Decrypt(u.Password),
-                CreatedAt = u.CreatedAt,
-                UpdatedAt = u.UpdatedAt,
-                IsDeleted = u.IsDeleted
-            }).ToListAsync();
+                user.Password = _encryptionService.Decrypt(user.Password);
+            });
+            return await Task.FromResult(userList.Select(user => new UserDto
+            {
+                Id = user.Id,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Department = user.Department,
+                Password = user.Password,
+                CreatedAt = user.CreatedAt,
+                UpdatedAt = user.UpdatedAt,
+                IsDeleted = user.IsDeleted
+            }).ToList());
         }
     }
 }

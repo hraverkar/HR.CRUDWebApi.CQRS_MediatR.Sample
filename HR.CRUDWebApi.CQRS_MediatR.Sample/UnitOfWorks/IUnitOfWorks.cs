@@ -5,7 +5,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks
 {
     public interface IUnitOfWorks : IDisposable
     {
-        Task<bool> SaveChangesAsync(CancellationToken cancellationToken);
+        Task SaveChangesAsync(CancellationToken cancellationToken);
         IRepository<T> GetRepository<T>() where T : class;
     }
 }
