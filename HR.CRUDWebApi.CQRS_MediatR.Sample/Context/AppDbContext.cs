@@ -11,10 +11,5 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Context
         {
             base.OnModelCreating(modelBuilder);
         }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    optionsBuilder.UseSqlServer("Server=host.docker.internal;Database=DemoApp;User Id=sa;Password=Admin1234!;TrustServerCertificate=True;");
-        //}
     }
 }

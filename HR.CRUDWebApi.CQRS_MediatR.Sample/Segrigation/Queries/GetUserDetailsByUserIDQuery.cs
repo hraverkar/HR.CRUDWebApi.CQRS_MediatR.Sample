@@ -1,20 +1,20 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
+﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Queries
 {
     public record GetUserDetailsByUserIDQuery(Guid UserID) : IRequest<UserDto>;
-    public class GetUserDetailsQueryHandler(AppDbContext context, IEncryptionService encryptionService) : IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>
+    public class GetUserDetailsByUserIDQueryHandler(IRepository<User> repository, IEncryptionService encryptionService) : IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>
     {
-        private readonly AppDbContext _context = context;
+        private readonly IRepository<User> _repository = repository;
         private readonly IEncryptionService _encryptionService = encryptionService;
 
-        public async Task<UserDto> Handle(GetUserDetailsByUserIDQuery request, CancellationToken cancellationToken)
+        async Task<UserDto> IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>.Handle(GetUserDetailsByUserIDQuery request, CancellationToken cancellationToken)
         {
-            var user = await _context.Users.FindAsync(request.UserID);
-#pragma warning disable CS8602 // Dereference of a possibly null reference.
+            var user = await _repository.GetByIdAsync(request.UserID);
             return new UserDto
             {
                 Id = user.Id,
@@ -27,7 +27,6 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
                 UpdatedAt = user.UpdatedAt,
                 IsDeleted = user.IsDeleted
             };
-#pragma warning restore CS8602 // Dereference of a possibly null reference.
         }
     }
 }
