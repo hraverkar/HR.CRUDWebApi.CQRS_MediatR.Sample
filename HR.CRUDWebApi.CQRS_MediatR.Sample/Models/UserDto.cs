@@ -13,4 +13,10 @@
         public bool IsDeleted { get; set; }
 
     }
+
+    public record UserInfo
+    {
+        public int Count { get; init; }
+        public List<UserDto>? UserDto { get; init; }
+    }
 }

@@ -1,5 +1,5 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Commands;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.Queries;
+﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Queries;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -8,13 +8,9 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController(IMediator mediator) : ControllerBase
     {
-        private readonly IMediator _mediator;
-        public UserController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        private readonly IMediator _mediator = mediator;
 
         [HttpGet("GetUserList")]
         public async Task<IActionResult> GetUserList()

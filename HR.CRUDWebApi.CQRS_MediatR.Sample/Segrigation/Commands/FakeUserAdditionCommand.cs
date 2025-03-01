@@ -1,5 +1,4 @@
 ﻿using Bogus;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
@@ -7,13 +6,12 @@ using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands
 {
     public record FakeUserAdditionCommand : IRequest<List<ResponseDto>>;
-    public class FakeUserAdditionCommandHandler(IRepository<User> repository, IMediator mediator, IEncryptionService encryptionService, IUnitOfWorks unitOfWorks) : IRequestHandler<FakeUserAdditionCommand, List<ResponseDto>>
+    public class FakeUserAdditionCommandHandler(IRepository<User> repository, IEncryptionService encryptionService, IUnitOfWorks unitOfWorks) : IRequestHandler<FakeUserAdditionCommand, List<ResponseDto>>
     {
         private readonly IRepository<User> _repository = repository;
-        private readonly IMediator _mediator = mediator;
         private readonly IEncryptionService _encryptionService = encryptionService;
         private readonly IUnitOfWorks _unitOfOfWorks = unitOfWorks;
 

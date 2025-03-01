@@ -2,16 +2,14 @@
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Queries
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Queries
 {
     public record GetUserDetailsByUserIDQuery(Guid UserID) : IRequest<UserDto>;
-    public class GetUserDetailsQueryHandler(IRepository<User> repository, IUnitOfWorks unitOfWorks, IEncryptionService encryptionService) : IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>
+    public class GetUserDetailsByUserIDQueryHandler(IRepository<User> repository, IEncryptionService encryptionService) : IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>
     {
         private readonly IRepository<User> _repository = repository;
-        private readonly IUnitOfWorks _unitOfWorks = unitOfWorks;
         private readonly IEncryptionService _encryptionService = encryptionService;
 
         async Task<UserDto> IRequestHandler<GetUserDetailsByUserIDQuery, UserDto>.Handle(GetUserDetailsByUserIDQuery request, CancellationToken cancellationToken)

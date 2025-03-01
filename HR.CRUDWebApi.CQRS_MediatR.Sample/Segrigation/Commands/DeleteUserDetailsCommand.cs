@@ -1,12 +1,11 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
+﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Models;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands
 {
     public record DeleteUserDetailsCommand(Guid UserID) : IRequest<ResponseDto>;
     public class DeleteUserDetailsCommandHandler(IMediator mediator, IRepository<User> repository, IUnitOfWorks unitOfWorks) : IRequestHandler<DeleteUserDetailsCommand, ResponseDto>
@@ -44,7 +43,7 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
             catch (Exception ex)
             {
                 responseDto = new ResponseDto(default, ex.Message);
-                await _mediator.Publish(responseDto, cancellationToken);
+                await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                 return responseDto;
             }
         }

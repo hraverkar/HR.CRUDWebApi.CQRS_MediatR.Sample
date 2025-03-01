@@ -1,6 +1,4 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
-
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Models
+﻿namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Models
 {
     public class ResponseDto
     {

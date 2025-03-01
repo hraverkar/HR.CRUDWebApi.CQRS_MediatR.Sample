@@ -6,7 +6,7 @@ using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands
 {
     public record UpdateUserDetailsCommand(Guid UserID, string FirstName, string LastName, string Email, string Password, string Department) : IRequest<ResponseDto>;
     public class UpdateUserDetailsCommandHandler(IRepository<User> repository, IMediator mediator, IEncryptionService encryptionService, IUnitOfWorks unitOfWorks) : IRequestHandler<UpdateUserDetailsCommand, ResponseDto>
@@ -35,27 +35,27 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                         _repository.Update(user);
                         await _unitOfWorks.SaveChangesAsync(cancellationToken);
                         responseDto = new ResponseDto(user.Id, "User details updated successfully");
-                        await _mediator.Publish(new ResponseEvent(responseDto));
+                        await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                         return responseDto;
                     }
                     else
                     {
                         responseDto = new ResponseDto(default, "User not found");
-                        await _mediator.Publish(new ResponseEvent(responseDto));
+                        await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                         return responseDto;
                     }
                 }
                 else
                 {
                     responseDto = new ResponseDto(default, "Invalid request");
-                    await _mediator.Publish(new ResponseEvent(responseDto));
+                    await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                     return responseDto;
                 }
             }
             catch (Exception ex)
             {
                 responseDto = new ResponseDto(default, ex.Message);
-                await _mediator.Publish(new ResponseEvent(responseDto));
+                await _mediator.Publish(new ResponseEvent(responseDto), cancellationToken);
                 return responseDto;
             }
         }

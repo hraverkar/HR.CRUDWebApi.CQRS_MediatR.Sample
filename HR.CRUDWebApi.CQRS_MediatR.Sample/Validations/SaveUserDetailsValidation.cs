@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.Commands;
+using HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands;
 
 namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Validations
 {

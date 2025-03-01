@@ -1,5 +1,4 @@
-﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Context;
-using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
+﻿using HR.CRUDWebApi.CQRS_MediatR.Sample.Entity;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Events.Notifications;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.Interfaces;
@@ -8,7 +7,7 @@ using HR.CRUDWebApi.CQRS_MediatR.Sample.Repositories.Interfaces;
 using HR.CRUDWebApi.CQRS_MediatR.Sample.UnitOfWorks;
 using MediatR;
 
-namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
+namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Segrigation.Commands
 {
     public record SaveUserDetailsCommand(string FirstName, string LastName, string Email, string Department, string Password) : IRequest<ResponseDto>;
 
@@ -37,16 +36,16 @@ namespace HR.CRUDWebApi.CQRS_MediatR.Sample.Commands
                     _repository.Insert(user);
                     await _unitOfWorks.SaveChangesAsync(cancellationToken);
                     response = new ResponseDto(user.Id, "User details saved successfully");
-                    await _mediator.Publish(new ResponseEvent(response));
-                    await _mediator.Publish(new SaveUserDetailsNotification(response.Id, user.FirstName, user.Email));
+                    await _mediator.Publish(new ResponseEvent(response), cancellationToken);
+                    await _mediator.Publish(new SaveUserDetailsNotification(response.Id, user.FirstName, user.Email), cancellationToken);
                     return new ResponseDto(user.Id, "User details saved successfully");
                 }
-                await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, "Invalid request")));
+                await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, "Invalid request")), cancellationToken);
                 return new ResponseDto(Guid.Empty, "Invalid request");
             }
             catch (Exception ex)
             {
-                await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, ex.Message)));
+                await _mediator.Publish(new ResponseEvent(new ResponseDto(Guid.Empty, ex.Message)), cancellationToken);
                 return new ResponseDto(Guid.Empty, ex.Message);
             }
         }
