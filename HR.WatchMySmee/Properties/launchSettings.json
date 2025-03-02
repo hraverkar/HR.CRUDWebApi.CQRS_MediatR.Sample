@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "HR.WatchMySmee": {
+      "commandName": "Project"
+    },
+    "Container (Dockerfile)": {
+      "commandName": "Docker"
+    }
+  }
+}
