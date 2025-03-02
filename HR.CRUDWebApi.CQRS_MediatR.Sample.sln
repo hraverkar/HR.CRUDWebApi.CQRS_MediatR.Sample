@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35818.85 d17.13
+VisualStudioVersion = 17.13.35818.85
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HR.CRUDWebApi.CQRS_MediatR.Sample", "HR.CRUDWebApi.CQRS_MediatR.Sample\HR.CRUDWebApi.CQRS_MediatR.Sample.csproj", "{77A9C606-19CF-4573-97DF-EAC98C97AA3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HR.WatchMySmee", "HR.WatchMySmee\HR.WatchMySmee.csproj", "{FA1F40B6-A8BB-413F-9BEF-FABF3FC3D553}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HR.BuildingRabbitMQ.Lib", "HR.BuildingBlocks.EventBus\HR.BuildingRabbitMQ.Lib.csproj", "{D53F5F8F-DB55-4A90-AC3B-7B3C230DE869}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{77A9C606-19CF-4573-97DF-EAC98C97AA3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77A9C606-19CF-4573-97DF-EAC98C97AA3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77A9C606-19CF-4573-97DF-EAC98C97AA3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1F40B6-A8BB-413F-9BEF-FABF3FC3D553}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1F40B6-A8BB-413F-9BEF-FABF3FC3D553}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1F40B6-A8BB-413F-9BEF-FABF3FC3D553}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1F40B6-A8BB-413F-9BEF-FABF3FC3D553}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D53F5F8F-DB55-4A90-AC3B-7B3C230DE869}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D53F5F8F-DB55-4A90-AC3B-7B3C230DE869}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D53F5F8F-DB55-4A90-AC3B-7B3C230DE869}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D53F5F8F-DB55-4A90-AC3B-7B3C230DE869}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
